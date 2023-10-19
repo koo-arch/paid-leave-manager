@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "accounts.apps.AccountsConfig",
+    "schedules.apps.SchedulesConfig",
     "rest_framework_simplejwt.token_blacklist",
     "django_filters",
     "rest_framework",
