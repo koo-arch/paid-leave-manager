@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ContextProvider } from './components/customContexts';
 import ResponsiveDrawer from './components/responsiveDrawer';
+import Top from './pages/top';
 import Login from './pages/login';
 import Register from './pages/register';
 import NotFound from './pages/notFound';
@@ -39,6 +40,7 @@ const App = () => {
           <ContextProvider>
             <ResponsiveDrawer>
               <Routes>
+                <Route path="/" element={<Top />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="*" element={<NotFound />} />

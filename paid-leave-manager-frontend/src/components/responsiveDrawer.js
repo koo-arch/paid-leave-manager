@@ -10,6 +10,7 @@ import {
     Box,
     Typography,
     Drawer,
+    SwipeableDrawer,
     Divider,
     List,
     ListItem,
@@ -107,8 +108,9 @@ const ResponsiveDrawer = ({ children }) => {
                 aria-label="mailbox folders"
             >
                 {/* モバイル用ドロワー */}
-                <Drawer
+                <SwipeableDrawer
                     open={open}
+                    onOpen={handleDrawerOpen}
                     onClose={handleDrawerClose}
                     variant="temporary"
                     ModalProps={{
@@ -120,7 +122,7 @@ const ResponsiveDrawer = ({ children }) => {
                     }}
                 >
                     {drawer}
-                </Drawer>
+                </SwipeableDrawer>
                 {/* デスクトップバージョンのドロワー */}
                 <Drawer
                     variant="permanent"
