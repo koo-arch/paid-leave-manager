@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     isLoading: true,
-    places: [],
+    days: [],
     error: null,
 };
 
@@ -12,12 +12,12 @@ const leaveDaysSlice = createSlice({
     reducers: {
         leaveDaysFetchSuccess: (state, action) => {
             state.isLoading = false;
-            state.places = action.payload;
+            state.days = action.payload;
             state.error = null;
         },
         leaveDaysFetchFailure: (state, action) => {
             state.isLoading = false;
-            state.places = [];
+            state.days = [];
             state.error = action.payload;
         },
     },

@@ -10,7 +10,7 @@ const useFetchLeaveDays = () => {
 
     const fetchLeaveDays = async () => {
         try {
-            const response = await authAxios.get(urls.leaveDays);
+            const response = await authAxios.get(urls.LeaveDays);
             dispatch(leaveDaysFetchSuccess(response.data));
         } catch (error) {
             dispatch(leaveDaysFetchFailure(error.response.data));

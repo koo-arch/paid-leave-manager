@@ -10,7 +10,7 @@ const useFetchPaidLeaveSchedules = () => {
 
     const fetchPaidLeaveSchedules = async () => {
         try {
-            const response = await authAxios.get(urls.paidLeaveSchedules);
+            const response = await authAxios.get(urls.PaidLeaveSchedule);
             dispatch(paidLeaveSchedulesFetchSuccess(response.data));
         } catch (error) {
             dispatch(paidLeaveSchedulesFetchFailure(error.response.data));

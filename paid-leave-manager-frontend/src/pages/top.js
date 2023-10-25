@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MultipleDateCalendar from '../components/multipleDateCalendar';
 import { useCustomContext } from '../components/customContexts';
 import CustomSnackbar from '../components/customSnackbar';

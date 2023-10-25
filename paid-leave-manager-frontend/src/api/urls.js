@@ -3,6 +3,10 @@ const urls = {
     PlaceOfWork: `/place-of-work/`,
     PaidLeaveSchedule: `/paid-leave-schedule/`,
 
+    // days left
+    LeaveDays: `/leavedays/`,
+    DaysLeft: `/daysleft/`,
+
     // djoser
     Register: `/auth/users/`,
     Activation: `/auth/users/activation/`,

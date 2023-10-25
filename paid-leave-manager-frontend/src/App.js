@@ -5,6 +5,7 @@ import ResponsiveDrawer from './components/responsiveDrawer';
 import Top from './pages/top';
 import Login from './pages/login';
 import Register from './pages/register';
+import PlaceInfo from './pages/placeInfo';
 import NotFound from './pages/notFound';
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider, createTheme, typography } from '@mui/material/styles';
@@ -43,6 +44,7 @@ const App = () => {
                 <Route path="/" element={<Top />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/info" element={<PlaceInfo />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </ResponsiveDrawer>

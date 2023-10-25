@@ -10,7 +10,7 @@ const useFetchPlaceOfWork = () => {
 
     const fetchPlaceOfWork = async () => {
         try {
-            const response = await authAxios.get(urls.placeOfWork);
+            const response = await authAxios.get(urls.PlaceOfWork);
             dispatch(placeOfWorkFetchSuccess(response.data));
         } catch (error) {
             dispatch(placeOfWorkFetchFailure(error.response.data));

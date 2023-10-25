@@ -10,7 +10,7 @@ const useFetchDaysLeft = () => {
 
     const fetchDaysLeft = async () => {
         try {
-            const response = await authAxios.get(urls.daysLeft);
+            const response = await authAxios.get(urls.DaysLeft);
             dispatch(daysLeftFetchSuccess(response.data));
         } catch (error) {
             dispatch(daysLeftFetchFailure(error.response.data));
