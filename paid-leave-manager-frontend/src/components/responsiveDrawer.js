@@ -68,6 +68,12 @@ const ResponsiveDrawer = ({ children }) => {
                     </ListItemIcon>
                     <ListItemText primary="勤務先別情報" />
                 </ListItemButton>
+                <ListItemButton component={Link} to="/schedule" onClick={handleDrawerClose}>
+                    <ListItemIcon>
+                        <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="有給予定" />
+                </ListItemButton>
             </List>
         </div>
     );

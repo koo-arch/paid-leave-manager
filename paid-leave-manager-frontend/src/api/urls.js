@@ -1,7 +1,7 @@
 const urls = {
     // schedule
     PlaceOfWork: `/place-of-work/`,
-    PaidLeaveSchedule: `/paid-leave-schedule/`,
+    PaidLeaveSchedule: `/paid-leave-schedules/`,
 
     // days left
     LeaveDays: `/leavedays/`,

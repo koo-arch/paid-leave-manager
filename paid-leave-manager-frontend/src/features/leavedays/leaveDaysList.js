@@ -1,18 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useCustomContext } from '../../components/customContexts';
-import useAuthAxios from '../../hooks/auth/useAuthAxios';
 import TableField from './tableField';
-import urls from '../../api/urls';
+import useFetchLeaveDays from '../../hooks/api/useFetchLeaveDays';
 import Loading from '../../components/loading';
 
-
-const initioalState = [{
-    id: 0,
-    place_name: '',
-    effective_date: '',
-    leave_days: 0,
-}]
 
 const formatData = (data) => {
     return data.map((item) => {
@@ -28,34 +20,16 @@ const formatData = (data) => {
 
 const LaaveDaysList = (props) => {
     const { openDialog } = props;
-    const placeOfWork = useSelector((state) => state.placeOfWork);
-    const [placeInfoList, setPlaceInfoList] = useState(initioalState);
-    const [isLoading, setIsLoading] = useState(true);
-    const { setSnackbarStatus, postFlag } = useCustomContext();
-    const authAxios = useAuthAxios();
-
-    const fetchLeaveDaysList = async () => {
-        return await authAxios.get(urls.LeaveDays)
-    }
+    const leaveDays = useSelector((state) => state.leaveDays);
+    const { postFlag } = useCustomContext();
+    const fetchLeaveDays = useFetchLeaveDays();
 
     useEffect(() => {
-        fetchLeaveDaysList()
-            .then((res) => {
-                console.log(res.data);
-                setPlaceInfoList([...formatData(res.data)]);
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-                setSnackbarStatus({
-                    open: true,
-                    severity: 'error',
-                    message: '勤務先情報の取得に失敗しました。'
-                });
-            })
-            .then(() => {
-                setIsLoading(false);
-            })
+        fetchLeaveDays();
     },[postFlag])
+
+    const isLoading = leaveDays.isLoading;
+    const placeInfoList = formatData(leaveDays.days);
 
     const colmuns = [
         { field: 'place_name', headerName: '勤務先名', width: 200 },

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { set, format } from 'date-fns';
-import { useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { useCustomContext } from '../../components/customContexts';
 import useAuthAxios from '../../hooks/auth/useAuthAxios';
-import useFetchPlaceOfWork from '../../hooks/api/useFetchPlaceOfWork';
 import DropdownSelect from '../../components/dropdownSelect';
 import urls from '../../api/urls';
 import DateField from '../../components/dateField';
@@ -12,6 +10,7 @@ import NumberInput from '../../components/numberInput';
 import FormDialog from '../../components/formDialog';
 import { FormControl } from '@mui/material'; 
 import { errorMessage } from '../../utils/errorMessage';
+import usePlaceSelect from '../../hooks/features/usePlaceSelect';
 
 
 const RegisterLeaveDays = (props) => {
@@ -20,24 +19,11 @@ const RegisterLeaveDays = (props) => {
     const authAxios = useAuthAxios();
     const { register, handleSubmit, control, setError, setValue, reset, formState: { errors } } = useForm();
     
-    // 勤務先一覧を取得する
-    const placeOfWork = useSelector((state) => state.placeOfWork.places);
-    const places = [...new Set(placeOfWork.map(item => item.name))];
-    const fetchPlaceOfWork = useFetchPlaceOfWork();
-    
-    useEffect(() => {
-        fetchPlaceOfWork();
-    }, [placeOfWork]);
-    
-
-    // 現在の選択肢の値を保持する
-    const [selectedPlace, setSelectedPlace] = useState('');
-    const selectedObj = placeOfWork.find((item) => item.name === selectedPlace);
-    const selectedPlaceId = selectedObj?.id ?? 0;
+    const { places, selectedPlace, selectedPlaceId, setSelectedPlace } = usePlaceSelect();
 
     useEffect(() => {
         setValue('place', selectedPlaceId);
-    }, [selectedPlaceId, setValue])
+    },[selectedPlaceId, setValue])
 
 
     // ダイアログ開閉
