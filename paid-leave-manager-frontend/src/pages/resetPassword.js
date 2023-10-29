@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import CustomSnackbar from '../components/customSnackbar';
-import useAuthAxios from '../hooks/useAuthAxios';
+import useAuthAxios from '../hooks/auth/useAuthAxios';
 import { useCustomContext } from '../components/customContexts';
 import urls from '../api/urls';
 import {

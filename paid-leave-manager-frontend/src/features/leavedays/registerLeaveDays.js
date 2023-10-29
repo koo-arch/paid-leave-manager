@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { set, format } from 'date-fns';
+import { set, format, subYears, addYears } from 'date-fns';
 import { useForm, Controller } from 'react-hook-form';
 import { useCustomContext } from '../../components/customContexts';
 import useAuthAxios from '../../hooks/auth/useAuthAxios';
@@ -63,7 +63,8 @@ const RegisterLeaveDays = (props) => {
 
 
     const AprilFirst = set(new Date(), { month: 3, date: 1 });
-
+    const minDate = set(subYears(new Date(), 1), { month: 3, date: 1 });
+    const maxDate = set(addYears(new Date(), 1), { month: 2, date: 31 });
     return (
         <div>
             <input type='hidden' onClick={openDialog} ref={create} />
@@ -101,7 +102,9 @@ const RegisterLeaveDays = (props) => {
                         control={control}
                         defaultValue={AprilFirst}
                         render={({ field: { onChange, value } }) => 
-                            <DateField 
+                            <DateField
+                                minDate={minDate}
+                                maxDate={maxDate}
                                 label="有給適用日" 
                                 onChange={onChange} 
                                 value={value} 

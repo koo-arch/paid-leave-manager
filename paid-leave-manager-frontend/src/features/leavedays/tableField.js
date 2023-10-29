@@ -6,15 +6,6 @@ import AddIcon from '@mui/icons-material/Add';
 const TableField = (props) => {
     const { rows, columns, title, openDialog,  message = "" } = props;
 
-    if (rows.length === 0 && message !== "") {
-        return (
-            <Typography component={"h2"} variant='h5' textAlign="center" sx={{ mt: 6, mb: 6 }}>
-                {message}
-            </Typography>
-        )
-    } else if (rows.length === 0) {
-        return null;
-    }
     return (
         <Box sx={{ mb: 4 }}>
             <Container>
@@ -37,12 +28,19 @@ const TableField = (props) => {
                         </Fab>
                     </Grid>
                 </Grid>
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    disableColumnMenu
-                    sx={{ mb: 10 }}
-                />
+                {
+                    rows.length === 0 ?
+                    <Typography variant='h6' sx={{ mt: 1 }}>
+                        {message}
+                    </Typography>
+                    :
+                    <DataGrid
+                        rows={rows}
+                        columns={columns}
+                        disableColumnMenu
+                        sx={{ mb: 10 }}
+                    />
+                }
             </Container>
         </Box>
     )

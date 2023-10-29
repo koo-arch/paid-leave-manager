@@ -30,3 +30,9 @@ class PaidLeaveSchedulesSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation['place'] = PlaceOfWorkSerializer(instance.place).data
         return representation
+    
+    def validate(self, attrs):
+        # 同じユーザーが同じ日付を登録できないようにする
+        if PaidLeaveSchedules.objects.filter(user=attrs['user'], place=attrs['place'], leave_date=attrs['leave_date']).exists():
+            raise serializers.ValidationError({"leave_date": '同じ日付を登録することはできません'})
+        return attrs

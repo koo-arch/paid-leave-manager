@@ -1,6 +1,6 @@
 import React from 'react';
-import ChangePassword from '../features/changePassword';
-import DeleteAccount from '../features/deleteAccount';
+import ChangePassword from '../features/account/changePassword';
+import DeleteAccount from '../features/account/deleteAccount';
 import { useCustomContext } from '../components/customContexts';
 import CustomSnackbar from '../components/customSnackbar';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';

@@ -3,7 +3,7 @@ import { useForm, Controller, FormProvider } from 'react-hook-form';
 import useAuthAxios from '../../hooks/auth/useAuthAxios';
 import MultipleDateCalendar from '../../components/multipleDateCalendar';
 import { useCustomContext } from '../../components/customContexts';
-import { FormControl } from '@mui/material';
+import { Button } from '@mui/material';
 import DropdownSelect from '../../components/dropdownSelect';
 import usePlaceSelect from '../../hooks/features/usePlaceSelect';
 import useFetchPaidLeaveSchedules from '../../hooks/api/useFetchPaidLeaveSchedules';
@@ -26,6 +26,7 @@ const EditSchedule = () => {
   }
 
   const onSubmit = (data) => {
+    console.log(data);
     postPaidLeave(data)
       .then((res) => {
         console.log(res.data);
@@ -47,6 +48,7 @@ const EditSchedule = () => {
       <FormProvider {...useFormMethods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <MultipleDateCalendar />
+          <Button variant='contained' type="submit">決定</Button>
         </form>
       </FormProvider>
     </div>

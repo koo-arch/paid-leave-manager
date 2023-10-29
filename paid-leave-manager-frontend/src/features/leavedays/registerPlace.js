@@ -33,6 +33,7 @@ const RegisterPlace = (props) => {
                     message: '勤務先情報を登録しました。'
                 });
                 setPostFlag(!postFlag);
+                closeDialog();
                 reset();
             })
             .catch((err) => {

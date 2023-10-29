@@ -3,13 +3,12 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Calendar } from '@bjarkehs/react-nice-dates';
 import '@bjarkehs/react-nice-dates/build/style.css';
-import { isSameDay, set } from 'date-fns';
+import { isSameDay, format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import usePlaceSelect from '../hooks/features/usePlaceSelect';
 import { FormControl } from '@mui/material';
 import DropdownSelect from './dropdownSelect';
 import LeaveInfo from '../features/schedules/leaveInfo';
-import PlaceSelect from '../features/schedules/placeSelect';
 
 
 const MultipleDateCalendar = ({ isReadOnly }) => {
@@ -19,9 +18,8 @@ const MultipleDateCalendar = ({ isReadOnly }) => {
     
     const { places, selectedPlace, selectedPlaceId, setSelectedPlace } = usePlaceSelect();
 
-    const [registeredDates, setRegisteredDates] = useState([]);
     const [leaveDaysArray, setLeaveDaysArray] = useState([]);
-    const [selectedDates, setSelectedDates] = useState(registeredDates);
+    const [selectedDates, setSelectedDates] = useState([]);
 
     const handlePlaceChange = (e) => {
         setSelectedPlace(e.target.value);
@@ -37,7 +35,7 @@ const MultipleDateCalendar = ({ isReadOnly }) => {
             .filter(item => item.place.name === selectedPlace)
             .map(item => new Date(item.leave_date));
 
-        setRegisteredDates(updatedRegisteredDates);
+        setSelectedDates(updatedRegisteredDates);
     }, [selectedPlace, schedules]);
 
     useEffect(() => {
@@ -74,9 +72,9 @@ const MultipleDateCalendar = ({ isReadOnly }) => {
                 }
             }
             // クリックされた日付が既に存在していた場合、その日付を配列から取り除き、setSelectedDatesを実行します。
-            setSelectedDates(
-                selectedDates.filter(selectedDate => !isSameDay(selectedDate, date))
-                )
+            const removedDate =  selectedDates.filter(selectedDate => !isSameDay(selectedDate, date))
+            setSelectedDates(removedDate)
+            setValue('leave_dates', removedDate.map(date => format(date, 'yyyy-MM-dd')));
             
             } else {
                 for (let i = 0; i < ascLeaveDays.length; i++) {
@@ -87,19 +85,22 @@ const MultipleDateCalendar = ({ isReadOnly }) => {
                         leave_days -= 1;
 
                         ascLeaveDays[i] = { ...item, leave_days: leave_days };
-                        console.log("削除", ascLeaveDays);
+                        console.log("追加", ascLeaveDays);
                         setLeaveDaysArray(ascLeaveDays)
                         break;
                     }
                 }
                 // クリックされた日付が既に存在していない場合、今まで通り配列に日付を追加します。
-                setSelectedDates([...selectedDates, date])
+                const addedDate = [...selectedDates, date]
+                setSelectedDates(addedDate)
+                setValue('leave_dates', addedDate.map(date => format(date, 'yyyy-MM-dd')));
             }
         };
     const modifiers = {
         selected: (date) => selectedDates.some((selectedDate) => isSameDay(selectedDate, date)),
     };
-        
+    console.log("selectedDates",selectedDates);
+
     return (
         <div>
             <input type="hidden" value={selectedPlaceId} {...register("place")} />
@@ -130,6 +131,7 @@ const MultipleDateCalendar = ({ isReadOnly }) => {
                 locale={ja}
                 touchDragEnabled={true}
             />
+            <input type="hidden" value={selectedDates} {...register("leave_dates")} />
         </div>
     );
 }

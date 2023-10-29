@@ -20,7 +20,7 @@ class LeaveDays(models.Model):
 class DaysLeft(models.Model):
     """有給休暇の残日数"""
     user = models.ForeignKey(User, verbose_name='ユーザー', on_delete=models.CASCADE)
-    leave_days = models.ForeignKey(LeaveDays, verbose_name='有給休暇日数', on_delete=models.CASCADE)
+    leave_days_info = models.ForeignKey(LeaveDays, verbose_name='有給休暇日数', on_delete=models.CASCADE)
     days_left = models.IntegerField(verbose_name='残日数')
 
     def __str__(self):

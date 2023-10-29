@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import useAuthAxios from '../hooks/useAuthAxios';
+import useAuthAxios from '../hooks/auth/useAuthAxios';
 import CustomSnackbar from '../components/customSnackbar';
 import PasswordField from '../components/passwordField';
 import { useCustomContext } from '../components/customContexts';
