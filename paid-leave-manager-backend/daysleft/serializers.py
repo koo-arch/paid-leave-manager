@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import LeaveDays, DaysLeft
+from .models import LeaveDays
 from schedules.models import PlaceOfWork
 from schedules.serializers import PlaceOfWorkSerializer
 from .utils import DaysLeftManager
@@ -28,16 +28,3 @@ class LeaveDaysSerializer(serializers.ModelSerializer):
         if LeaveDays.objects.filter(user=attrs['user'], place=attrs['place'], effective_date=attrs["effective_date"]).exists():
             raise serializers.ValidationError({"detail": "既に登録されています。"})
         return attrs
-    
-
-class DaysLeftSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    leave_days_info = serializers.PrimaryKeyRelatedField(queryset=LeaveDays.objects.all())
-    class Meta:
-        model = DaysLeft
-        fields = '__all__'
-    
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['leave_days_info'] = DaysLeftSerializer(instance.leave_days_info).data
-        return representation

@@ -45,6 +45,7 @@ const MultipleDateCalendar = ({ isReadOnly }) => {
             .map(item => ({
                 id: item.id,
                 leave_days: item.leave_days,
+                left_days: item.left_days,
                 effective_date: new Date(item.effective_date)
             }))
             .sort((a, b) => new Date(a.effective_date) -  new Date(b.effective_date));
@@ -58,14 +59,16 @@ const MultipleDateCalendar = ({ isReadOnly }) => {
 
         const ascLeaveDays =  [...leaveDaysArray]
         if (selectedDates.some(selectedDate => isSameDay(selectedDate, date))) {
-            for (let i = 0; i < ascLeaveDays.length; i++) {
+            for (let i = ascLeaveDays.length - 1; i > -1; i--) {
                 const item = ascLeaveDays[i];
                 const effective_date = new Date(item.effective_date);
-                let leave_days = item.leave_days;
-                if (effective_date < date && leave_days > 0) {
-                    leave_days += 1;
+                const leave_days = item.leave_days;
+                let left_days = item.left_days;
+                
+                if (effective_date <= date && left_days >= 0 && leave_days > left_days) {
+                    left_days += 1;
                     
-                    ascLeaveDays[i] = { ...item, leave_days: leave_days };
+                    ascLeaveDays[i] = { ...item, left_days: left_days };
                     console.log("削除", ascLeaveDays);
                     setLeaveDaysArray(ascLeaveDays)
                     break;
@@ -80,11 +83,13 @@ const MultipleDateCalendar = ({ isReadOnly }) => {
                 for (let i = 0; i < ascLeaveDays.length; i++) {
                     const item = ascLeaveDays[i];
                     const effective_date = new Date(item.effective_date);
-                    let leave_days = item.leave_days;
-                    if (effective_date < date && leave_days > 0) {
-                        leave_days -= 1;
+                    const leave_days = item.leave_days;
+                    let left_days = item.left_days;
+                   
+                    if (effective_date <= date && left_days > 0) {
+                        left_days -= 1;
 
-                        ascLeaveDays[i] = { ...item, leave_days: leave_days };
+                        ascLeaveDays[i] = { ...item, left_days: left_days };
                         console.log("追加", ascLeaveDays);
                         setLeaveDaysArray(ascLeaveDays)
                         break;

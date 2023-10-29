@@ -22,7 +22,7 @@ const LeaveInfo = ({data}) => {
                         </Typography>
                         <List>
                             <ListItem>
-                                <ListItemText primary={item.leave_days} />
+                                <ListItemText primary={item.left_days} />
                             </ListItem>
                         </List>
                     </CardContent>

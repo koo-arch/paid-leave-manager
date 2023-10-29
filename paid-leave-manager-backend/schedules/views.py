@@ -4,6 +4,7 @@ from .serializers import PlaceOfWorkSerializer, PaidLeaveSchedulesSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime
+from PLManager.utils import DataFormater
 
 
 class PlaceOfWorkView(generics.ListCreateAPIView):
@@ -38,7 +39,9 @@ class PaidLeaveSchedulesView(generics.ListCreateAPIView):
         user = request.user
         place = data.get('place', None)
         leave_dates = data.get('leave_dates', [])
-        leave_dates = [datetime.strptime(date, '%Y-%m-%d').date() for date in leave_dates]
+        data_formater = DataFormater()
+        leave_dates = data_formater.format_dates(leave_dates)
+        leave_dates.sort()
 
         transform_data = []
         for leave_date in leave_dates:
@@ -50,11 +53,6 @@ class PaidLeaveSchedulesView(generics.ListCreateAPIView):
         
         exsit_data = PaidLeaveSchedules.objects.filter(user=user, place=place)
 
-        # DBのみに存在する日付を削除
-        for data in exsit_data:
-            if data.leave_date not in leave_dates:
-                data.delete()
-        
         # 既存データの日付をリストに追加
         exsit_dates = [data.leave_date for data in exsit_data]
         
@@ -62,10 +60,14 @@ class PaidLeaveSchedulesView(generics.ListCreateAPIView):
         transform_data = [
             data for data in transform_data if data['leave_date'] not in exsit_dates
         ]
-        
+        print(transform_data)
         serializer = self.get_serializer(data=transform_data, many=True)
 
         if serializer.is_valid():
+            # DBのみに存在する日付を削除
+            for data in exsit_data:
+                if data.leave_date not in leave_dates:
+                    data.delete()
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
