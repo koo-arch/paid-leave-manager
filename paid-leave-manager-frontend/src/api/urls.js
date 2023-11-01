@@ -5,8 +5,7 @@ const urls = {
 
     // days left
     LeaveDays: `/leavedays/`,
-    DaysLeft: `/daysleft/`,
-
+    
     // djoser
     Register: `/auth/users/`,
     Activation: `/auth/users/activation/`,

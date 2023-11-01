@@ -5,13 +5,13 @@ import { Calendar } from '@bjarkehs/react-nice-dates';
 import '@bjarkehs/react-nice-dates/build/style.css';
 import { isSameDay, format } from 'date-fns';
 import { ja } from 'date-fns/locale';
-import usePlaceSelect from '../hooks/features/usePlaceSelect';
+import usePlaceSelect from '../../hooks/features/usePlaceSelect';
 import { FormControl } from '@mui/material';
-import DropdownSelect from './dropdownSelect';
-import LeaveInfo from '../features/schedules/leaveInfo';
+import DropdownSelect from '../../components/dropdownSelect';
+import LeaveInfo from './leaveInfo';
 
 
-const MultipleDateCalendar = ({ isReadOnly }) => {
+const MultipleDateCalendar = ({ isReadOnly, updatePlaceStatus, updateDaysStatus }) => {
     const schedules = useSelector(state => state.paidLeaveSchedules.schedules);
     const leaveDays = useSelector(state => state.leaveDays.days);
     const { register, control, setValue, formState: { errors } } = useFormContext();
@@ -23,11 +23,17 @@ const MultipleDateCalendar = ({ isReadOnly }) => {
 
     const handlePlaceChange = (e) => {
         setSelectedPlace(e.target.value);
+        updatePlaceStatus(e.target.value !== "");
+        updateDaysStatus(false);
     }
 
     useEffect(() => {
         setValue('place', selectedPlaceId);
     }, [selectedPlaceId, setValue])
+
+    useEffect(() => {
+        setValue('leave_dates', selectedDates.map(date => format(date, 'yyyy-MM-dd')));
+    }, [selectedPlace, selectedDates, setValue]);
 
     useEffect(() => {
         // 選択した場所が変更された場合に registeredDates を更新
@@ -38,6 +44,7 @@ const MultipleDateCalendar = ({ isReadOnly }) => {
         setSelectedDates(updatedRegisteredDates);
     }, [selectedPlace, schedules]);
 
+
     useEffect(() => {
         // leaveDays または selectedPlace が変更された場合に leaveDaysArray を更新
         const updatedLeaveDaysArray = leaveDays
@@ -46,70 +53,86 @@ const MultipleDateCalendar = ({ isReadOnly }) => {
                 id: item.id,
                 leave_days: item.leave_days,
                 left_days: item.left_days,
-                effective_date: new Date(item.effective_date)
+                effective_date: new Date(item.effective_date).setHours(0, 0, 0, 0),
+                deadline: new Date(item.deadline).setHours(0, 0, 0, 0)
             }))
             .sort((a, b) => new Date(a.effective_date) -  new Date(b.effective_date));
 
         setLeaveDaysArray(updatedLeaveDaysArray);
     }, [leaveDays, selectedPlace]);
-    
+
+    console.log("leaveDays", leaveDays);
 
     const handleDayClick = date => {
         if (isReadOnly) return;
 
-        const ascLeaveDays =  [...leaveDaysArray]
+        const updatedLeaveDays =  [...leaveDaysArray]
+        let dateModified = false; // デフォルトは日付が変更されていないことを示すフラグ
+
         if (selectedDates.some(selectedDate => isSameDay(selectedDate, date))) {
-            for (let i = ascLeaveDays.length - 1; i > -1; i--) {
-                const item = ascLeaveDays[i];
+            // クリックされた日付が既に存在している場合の処理
+
+            // カレンダーの選択解除時に、left_days を元に戻す処理
+            for (let i = updatedLeaveDays.length - 1; i > -1; i--) {
+                const item = updatedLeaveDays[i];
                 const effective_date = new Date(item.effective_date);
+                const deadline = new Date(item.deadline);
                 const leave_days = item.leave_days;
                 let left_days = item.left_days;
                 
-                if (effective_date <= date && left_days >= 0 && leave_days > left_days) {
+                if (effective_date <= date && date < deadline && left_days >= 0 && leave_days > left_days) {
                     left_days += 1;
                     
-                    ascLeaveDays[i] = { ...item, left_days: left_days };
-                    console.log("削除", ascLeaveDays);
-                    setLeaveDaysArray(ascLeaveDays)
+                    updatedLeaveDays[i] = { ...item, left_days: left_days };
+                    console.log("削除", updatedLeaveDays);
+                    setLeaveDaysArray(updatedLeaveDays)
+                    updateDaysStatus(true);
+                    dateModified = true;
                     break;
                 }
             }
-            // クリックされた日付が既に存在していた場合、その日付を配列から取り除き、setSelectedDatesを実行します。
+            if (!dateModified) return;
+
+            // クリックされた日付が selectedDates にある場合、その日付を削除。
             const removedDate =  selectedDates.filter(selectedDate => !isSameDay(selectedDate, date))
             setSelectedDates(removedDate)
-            setValue('leave_dates', removedDate.map(date => format(date, 'yyyy-MM-dd')));
             
             } else {
-                for (let i = 0; i < ascLeaveDays.length; i++) {
-                    const item = ascLeaveDays[i];
+                // クリックされた日付が存在していない場合の処理
+
+                // カレンダーの選択時に、left_days を減らす処理
+                for (let i = 0; i < updatedLeaveDays.length; i++) {
+                    const item = updatedLeaveDays[i];
                     const effective_date = new Date(item.effective_date);
-                    const leave_days = item.leave_days;
+                    const deadline = new Date(item.deadline);
                     let left_days = item.left_days;
-                   
-                    if (effective_date <= date && left_days > 0) {
+
+                    if (effective_date <= date && date < deadline && left_days > 0) {
                         left_days -= 1;
 
-                        ascLeaveDays[i] = { ...item, left_days: left_days };
-                        console.log("追加", ascLeaveDays);
-                        setLeaveDaysArray(ascLeaveDays)
+                        updatedLeaveDays[i] = { ...item, left_days: left_days };
+                        console.log("追加", updatedLeaveDays);
+                        setLeaveDaysArray(updatedLeaveDays)
+                        updateDaysStatus(true);
+                        dateModified = true;
                         break;
                     }
                 }
-                // クリックされた日付が既に存在していない場合、今まで通り配列に日付を追加します。
+                if (!dateModified) return;
+
+                // クリックされた日付が selectedDates にない場合、その日付を追加。
                 const addedDate = [...selectedDates, date]
                 setSelectedDates(addedDate)
-                setValue('leave_dates', addedDate.map(date => format(date, 'yyyy-MM-dd')));
             }
         };
     const modifiers = {
         selected: (date) => selectedDates.some((selectedDate) => isSameDay(selectedDate, date)),
     };
-    console.log("selectedDates",selectedDates);
 
     return (
         <div>
             <input type="hidden" value={selectedPlaceId} {...register("place")} />
-            <FormControl>
+            <FormControl fullWidth>
                 <Controller
                     name="place_name"
                     control={control}

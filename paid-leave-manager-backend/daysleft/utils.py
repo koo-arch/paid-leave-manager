@@ -13,7 +13,7 @@ class DaysLeftManager:
     
 
     def dec_left_days(self, leave_date, queryset):
-        """有給休暇の残日数を計算する"""
+        """有給休暇の残日数を減算する"""
         leave_days_data = list(queryset.values('effective_date', 'leave_days', 'left_days'))
         for i in range(len(leave_days_data)):
             dict_data = leave_days_data[i]
@@ -25,7 +25,7 @@ class DaysLeftManager:
     
 
     def inc_left_days(self, leave_date, queryset):
-        """有給休暇の残日数を計算する"""
+        """有給休暇の残日数を増加する"""
         leave_days_data = list(queryset.values('effective_date', 'leave_days', 'left_days'))
         for i in range(len(leave_days_data) - 1 , -1, -1):
             dict_data = leave_days_data[i]

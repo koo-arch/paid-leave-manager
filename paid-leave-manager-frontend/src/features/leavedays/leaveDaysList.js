@@ -2,13 +2,12 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useCustomContext } from '../../components/customContexts';
 import TableField from './tableField';
-import useFetchLeaveDays from '../../hooks/api/useFetchLeaveDays';
 import Loading from '../../components/loading';
 
 
 const formatData = (data) => {
     return data.map((item) => {
-        const place_name = item.place.name || "";
+        const place_name = item.place?.name || "";
         return {
             id: item.id || 0,
             place_name: place_name || "",
@@ -18,15 +17,9 @@ const formatData = (data) => {
     })
 }
 
-const LaaveDaysList = (props) => {
+const LeaveDaysList = (props) => {
     const { openDialog } = props;
     const leaveDays = useSelector((state) => state.leaveDays);
-    const { postFlag } = useCustomContext();
-    const fetchLeaveDays = useFetchLeaveDays();
-
-    useEffect(() => {
-        fetchLeaveDays();
-    },[postFlag])
 
     const isLoading = leaveDays.isLoading;
     const placeInfoList = formatData(leaveDays.days);
@@ -54,4 +47,4 @@ const LaaveDaysList = (props) => {
     )
 }
 
-export default LaaveDaysList;
+export default LeaveDaysList;

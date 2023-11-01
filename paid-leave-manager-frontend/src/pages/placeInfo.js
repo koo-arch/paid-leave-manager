@@ -6,9 +6,14 @@ import RegisterPlace from '../features/leavedays/registerPlace';
 import RegisterLeaveDays from '../features/leavedays/registerLeaveDays';
 import PlaceList from '../features/leavedays/placeList';
 import LeaveDaysList from '../features/leavedays/leaveDaysList';
+import useFetchPlaceOfWork from '../hooks/api/useFetchPlaceOfWork';
+import useFetchLeaveDays from '../hooks/api/useFetchLeaveDays';
 
 const PlaceInfo = () => {
     const { snackbarStatus } = useCustomContext();
+    
+    useFetchPlaceOfWork();
+    useFetchLeaveDays();
 
     const placeRef = useRef();
     const leaveDaysRef = useRef();

@@ -17,7 +17,6 @@ const useRefreshToken = () => {
         refresh: cookies.refreshtoken,
       });
       setCookie('accesstoken', response.data.access, { path: '/' }, { httpOnly: true });
-      setCookie('refreshtoken', response.data.refresh, { path: '/' }, { httpOnly: true });
       console.log(response)
       return response.data.access;
     } catch (err) {
