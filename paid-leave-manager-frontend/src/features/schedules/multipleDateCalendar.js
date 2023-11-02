@@ -6,7 +6,7 @@ import '@bjarkehs/react-nice-dates/build/style.css';
 import { isSameDay, format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import usePlaceSelect from '../../hooks/features/usePlaceSelect';
-import { FormControl } from '@mui/material';
+import { FormControl, Typography } from '@mui/material';
 import DropdownSelect from '../../components/dropdownSelect';
 import LeaveInfo from './leaveInfo';
 
@@ -61,7 +61,6 @@ const MultipleDateCalendar = ({ isReadOnly, updatePlaceStatus, updateDaysStatus 
         setLeaveDaysArray(updatedLeaveDaysArray);
     }, [leaveDays, selectedPlace]);
 
-    console.log("leaveDays", leaveDays);
 
     const handleDayClick = date => {
         if (isReadOnly) return;
@@ -131,6 +130,9 @@ const MultipleDateCalendar = ({ isReadOnly, updatePlaceStatus, updateDaysStatus 
 
     return (
         <div>
+            <Typography component={"body"} sx={{ mt: 3 }}>
+                勤務先を選択後、カレンダーから有給消費日を選択してください。
+            </Typography>
             <input type="hidden" value={selectedPlaceId} {...register("place")} />
             <FormControl fullWidth>
                 <Controller

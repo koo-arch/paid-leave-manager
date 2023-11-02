@@ -55,10 +55,19 @@ const EditSchedule = () => {
   return (
     <div>
       <FormProvider {...useFormMethods}>
-        <Button 
+        <form id="dialog-form" onSubmit={handleSubmit(onSubmit)}>
+          <MultipleDateCalendar 
+            updatePlaceStatus={setIsPlaceSelected} 
+            updateDaysStatus={setIsDaysChanged}
+          />
+        </form>
+        <Button
+          size='large'
+          fullWidth
           variant='contained' 
           onClick={openDialog}
           disabled={!(isPlaceSelected && isDaysChanged)}
+          sx={{ mt: 3, mb: 2 }}
           >
             確認
         </Button>
@@ -90,12 +99,6 @@ const EditSchedule = () => {
             </ListItem>
           </List>
         </FormDialog>
-        <form id="dialog-form" onSubmit={handleSubmit(onSubmit)}>
-          <MultipleDateCalendar 
-            updatePlaceStatus={setIsPlaceSelected} 
-            updateDaysStatus={setIsDaysChanged}
-          />
-        </form>
       </FormProvider>
     </div>
   )

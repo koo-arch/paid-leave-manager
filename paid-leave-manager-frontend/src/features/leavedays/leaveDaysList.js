@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useCustomContext } from '../../components/customContexts';
+import DeleteLeaveDays from './deleteLeaveDays';
 import TableField from './tableField';
 import Loading from '../../components/loading';
 
@@ -28,6 +28,14 @@ const LeaveDaysList = (props) => {
         { field: 'place_name', headerName: '勤務先名', width: 200 },
         { field: 'effective_date', headerName: '有給適用日', width: 200 },
         { field: 'leave_days', headerName: '有給日数', width: 200 },
+        {
+            field: 'deleteBtn',
+            headerName: '削除',
+            sortable: false,
+            width: 100,
+            disableClickEventBubbling: true,
+            renderCell: (params) => <DeleteLeaveDays {...params.row} />
+        }
     ]
 
 

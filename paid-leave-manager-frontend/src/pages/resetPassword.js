@@ -13,7 +13,7 @@ import {
     Avatar,
     Grid,
  } from '@mui/material';
-import CustomLink from '../components/CustomLink';
+import CustomLink from '../components/customLink';
 import LockResetIcon from '@mui/icons-material/LockReset';
 
 const ResetPassword = () => {

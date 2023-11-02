@@ -14,7 +14,7 @@ import {
     Avatar,
     Grid,
 } from '@mui/material';
-import CustomLink from '../components/CustomLink';
+import CustomLink from '../components/customLink';
 import EmailIcon from '@mui/icons-material/Email';
 
 

@@ -16,7 +16,7 @@ import {
     Avatar,
     Grid,
 } from "@mui/material";
-import CustomLink from "../components/CustomLink";
+import CustomLink from "../components/customLink";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import { errorMessage} from "../utils/errorMessage";
 
