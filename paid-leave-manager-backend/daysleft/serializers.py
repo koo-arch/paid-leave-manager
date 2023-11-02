@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import LeaveDays
-from schedules.models import PlaceOfWork
-from schedules.serializers import PlaceOfWorkSerializer
+from places.models import PlaceOfWork
+from places.serializers import PlaceOfWorkSerializer
 from .utils import DaysLeftManager
 from datetime import datetime
 

@@ -10,13 +10,12 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("places", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name="LeaveDays",
+            name="PlaceOfWork",
             fields=[
                 (
                     "id",
@@ -27,22 +26,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("leave_days", models.IntegerField(verbose_name="有給休暇日数")),
-                ("left_days", models.IntegerField(verbose_name="残日数")),
-                ("effective_date", models.DateField(verbose_name="適用開始日")),
-                ("deadline", models.DateField(verbose_name="有給期限日")),
-                (
-                    "updated_at",
-                    models.DateTimeField(auto_now=True, verbose_name="更新日時"),
-                ),
-                (
-                    "place",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="places.placeofwork",
-                        verbose_name="勤務地",
-                    ),
-                ),
+                ("name", models.CharField(max_length=255, verbose_name="勤務地名")),
                 (
                     "user",
                     models.ForeignKey(

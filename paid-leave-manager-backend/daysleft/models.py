@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from schedules.models import PlaceOfWork
+from places.models import PlaceOfWork
 
 User = get_user_model()
 

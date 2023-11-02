@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "schedules.apps.SchedulesConfig",
     "daysleft.apps.DaysleftConfig",
+    "places.apps.PlacesConfig",
     "rest_framework_simplejwt.token_blacklist",
     "django_filters",
     "rest_framework",

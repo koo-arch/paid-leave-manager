@@ -1,31 +1,10 @@
 from rest_framework import generics, permissions
-from .models import PlaceOfWork, PaidLeaveSchedules
-from .serializers import PlaceOfWorkSerializer, PaidLeaveSchedulesSerializer
+from .models import PaidLeaveSchedules
+from .serializers import PaidLeaveSchedulesSerializer
 from rest_framework.response import Response
 from rest_framework import status
-from datetime import datetime
 from PLManager.utils import DataFormater
 
-
-class PlaceOfWorkView(generics.ListCreateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = PlaceOfWorkSerializer
-
-    def get_queryset(self):
-        return PlaceOfWork.objects.filter(user=self.request.user)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
-class PlaceOfWorkDetailView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = PlaceOfWorkSerializer
-    queryset = PlaceOfWork.objects.all()
-
-    def get_queryset(self):
-        return PlaceOfWork.objects.filter(user=self.request.user)
-    
 
 class PaidLeaveSchedulesView(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -48,6 +27,7 @@ class PaidLeaveSchedulesView(generics.ListCreateAPIView):
             transform_data.append({
                 'user': user.id,
                 'place': place,
+                'left_days_info': 1, # 仮の値
                 'leave_date': leave_date
             })
         
@@ -60,7 +40,6 @@ class PaidLeaveSchedulesView(generics.ListCreateAPIView):
         transform_data = [
             data for data in transform_data if data['leave_date'] not in exsit_dates
         ]
-        print(transform_data)
         serializer = self.get_serializer(data=transform_data, many=True)
 
         if serializer.is_valid():
