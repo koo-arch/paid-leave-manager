@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Calendar } from '@bjarkehs/react-nice-dates';
 import '@bjarkehs/react-nice-dates/build/style.css';
 import { isSameDay } from 'date-fns';
 import LeaveInfo from '../../features/schedules/leaveInfo';
 import usePlaceSelect from '../../hooks/features/usePlaceSelect';
 import DropdownSelect from '../../components/dropdownSelect';
+import useFetchPaidLeaveSchedules from '../../hooks/api/useFetchPaidLeaveSchedules';
+import useFetchPlaceOfWork from '../../hooks/api/useFetchPlaceOfWork';
+import useFetchLeaveDays from '../../hooks/api/useFetchLeaveDays';
 import CustomLink from '../../components/customLink';
 import { ja } from 'date-fns/locale';
 import { FormControl, Typography, Button } from '@mui/material';
@@ -13,6 +17,11 @@ import { FormControl, Typography, Button } from '@mui/material';
 const DateCalendar = () => {
     const schedules = useSelector(state => state.paidLeaveSchedules.schedules);
     const leaveDays = useSelector(state => state.leaveDays.days);
+
+    useFetchPlaceOfWork();
+    useFetchPaidLeaveSchedules();
+    useFetchLeaveDays();
+
     const [selectedDates, setSelectedDates] = useState([]);
     const [leaveDaysArray, setLeaveDaysArray] = useState([]);
 
@@ -55,7 +64,7 @@ const DateCalendar = () => {
 
     return (
         <div>
-            <Typography component={"body"} sx={{ mt: 3 }}>
+            <Typography variant="body" sx={{ mt: 3 }}>
                 勤務先を選択すると有給消費日がカレンダーに表示されます。<br/>
                 選択肢がない場合は、<CustomLink to="/info">こちら</CustomLink>から情報を登録してください。
             </Typography>
@@ -76,7 +85,7 @@ const DateCalendar = () => {
             <Button 
                 fullWidth
                 size='large'
-                component={CustomLink}
+                component={Link}
                 to="/schedule"
                 variant="contained"
                 sx={{ mt: 3, mb: 2  }}

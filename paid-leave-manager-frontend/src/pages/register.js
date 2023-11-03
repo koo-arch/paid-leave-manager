@@ -34,7 +34,7 @@ const Register = () => {
         postRegister(data)
             .then(res =>  {
                 console.log(res.data)
-                navigation('/login');
+                navigation('/activate/send');
                 setSnackbarStatus({
                     open: true,
                     severity: "success",
@@ -54,7 +54,6 @@ const Register = () => {
                 <CssBaseline/>
                 <Box
                     sx={{
-                        marginTop: 8,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -124,11 +123,6 @@ const Register = () => {
                         </Button>
                     </Box>
                     <Grid container>
-                        <Grid item xs>
-                            <CustomLink to="/activate/resend" variant="body2">
-                                アクティベーションメール再送信
-                            </CustomLink>
-                        </Grid>
                         <Grid item>
                             <CustomLink to="/login" variant="body2">
                                 ログイン

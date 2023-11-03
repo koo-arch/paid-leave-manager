@@ -11,7 +11,7 @@ const PlaceList = (props) => {
     const isLoading = placeOfWork.isLoading;
 
     const colmuns = [
-        { field: 'name', headerName: '勤務先名', width: 200 },
+        { field: 'name', headerName: '勤務先名', flex: 1 },
         {
             field: 'deleteBtn',
             headerName: '削除',

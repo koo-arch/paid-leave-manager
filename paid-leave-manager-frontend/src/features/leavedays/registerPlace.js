@@ -59,9 +59,9 @@ const RegisterPlace = (props) => {
                         required
                         fullWidth
                         margin='normal'
-                        error={!!errors.place_name}
+                        error={!!errors.name}
                         label="勤務先名"
-                        helperText={errors.place_name?.message}
+                        helperText={errors.name?.message}
                         {...register("name")}
                     />
                 </form>

@@ -11,7 +11,8 @@ import {
   Button,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  DialogContentText
  } from '@mui/material';
 
 
@@ -43,6 +44,7 @@ const EditSchedule = () => {
           severity: 'success',
           message: '有給情報を登録しました。'
         });
+        closeDialog();
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -51,7 +53,6 @@ const EditSchedule = () => {
         errorMessage(errRes, setError, setSnackbarStatus, message);
       })
   }
-  console.log(getValues())
   return (
     <div>
       <FormProvider {...useFormMethods}>
@@ -83,7 +84,7 @@ const EditSchedule = () => {
             </ListItem>
             <ListItem>
               <ListItemText 
-                primary="有給消費日" 
+                primary="有給消化日" 
                 secondary={
                   <>
                     {getValues('leave_dates') ? 
@@ -98,6 +99,10 @@ const EditSchedule = () => {
               />
             </ListItem>
           </List>
+          <DialogContentText color="error">
+            上記に記載のない登録済み有給消化日は削除されます。<br/>
+            この内容で登録しますか？
+          </DialogContentText>
         </FormDialog>
       </FormProvider>
     </div>

@@ -79,7 +79,7 @@ const MultipleDateCalendar = ({ isReadOnly, updatePlaceStatus, updateDaysStatus 
                 const leave_days = item.leave_days;
                 let left_days = item.left_days;
                 
-                if (effective_date <= date && date < deadline && left_days >= 0 && leave_days > left_days) {
+                if (effective_date <= date && date <= deadline && left_days >= 0 && leave_days > left_days) {
                     left_days += 1;
                     
                     updatedLeaveDays[i] = { ...item, left_days: left_days };
@@ -106,7 +106,7 @@ const MultipleDateCalendar = ({ isReadOnly, updatePlaceStatus, updateDaysStatus 
                     const deadline = new Date(item.deadline);
                     let left_days = item.left_days;
 
-                    if (effective_date <= date && date < deadline && left_days > 0) {
+                    if (effective_date <= date && date <= deadline && left_days > 0) {
                         left_days -= 1;
 
                         updatedLeaveDays[i] = { ...item, left_days: left_days };
@@ -130,8 +130,8 @@ const MultipleDateCalendar = ({ isReadOnly, updatePlaceStatus, updateDaysStatus 
 
     return (
         <div>
-            <Typography component={"body"} sx={{ mt: 3 }}>
-                勤務先を選択後、カレンダーから有給消費日を選択してください。
+            <Typography variant="body" sx={{ mt: 3 }}>
+                勤務先を選択後、カレンダーから有給消化日を選択してください。
             </Typography>
             <input type="hidden" value={selectedPlaceId} {...register("place")} />
             <FormControl fullWidth>
