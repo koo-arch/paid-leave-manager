@@ -18,7 +18,7 @@ import {
     Avatar,
     Grid,
 } from "@mui/material";
-import CustomLink from '../components/CustomLink';
+import CustomLink from '../components/customLink';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PasswordField from '../components/passwordField';
 import { loginErrorMessage } from '../utils/errorMessage';

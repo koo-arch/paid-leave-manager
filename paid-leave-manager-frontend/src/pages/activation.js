@@ -34,7 +34,7 @@ const Activation = () => {
                     severity: "error",
                     message: `アカウント本登録に失敗しました。再度やり直してください。`
                 })
-                navigation('/activation/resend')
+                navigation('/activate/resend')
             });
     },[])
 

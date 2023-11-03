@@ -19,7 +19,10 @@ import {
     ListItemText,
     Toolbar,
 } from '@mui/material';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import HomeIcon from '@mui/icons-material/Home';
+import BusinessIcon from '@mui/icons-material/Business';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const drawerWidth = 300;
@@ -48,6 +51,9 @@ const ResponsiveDrawer = ({ children }) => {
                     // ログインしている場合はユーザー名を表示するリストアイテム
                     <div>
                         <ListItemButton component={Link} to="/account" onClick={handleDrawerClose}>
+                            <ListItemIcon>
+                                <AccountBoxIcon />
+                            </ListItemIcon>
                             <ListItemText primary={user.username} />
                         </ListItemButton>
                     </div>
@@ -61,6 +67,18 @@ const ResponsiveDrawer = ({ children }) => {
                         <HomeIcon />
                     </ListItemIcon>
                     <ListItemText primary="トップページ" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/info" onClick={handleDrawerClose}>
+                    <ListItemIcon>
+                        <BusinessIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="勤務先情報" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/schedule" onClick={handleDrawerClose}>
+                    <ListItemIcon>
+                        <EditCalendarIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="有給予定編集" />
                 </ListItemButton>
             </List>
         </div>
@@ -96,7 +114,7 @@ const ResponsiveDrawer = ({ children }) => {
                     </IconButton>
                     {/* ページタイトル */}
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                        有給日数管理アプリ
+                        有給カレンダー
                     </Typography>
                     {/* アカウント関連のボタン */}
                     <AccountButton />

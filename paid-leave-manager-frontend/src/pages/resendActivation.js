@@ -14,7 +14,7 @@ import {
     Avatar,
     Grid,
 } from '@mui/material';
-import CustomLink from '../components/CustomLink';
+import CustomLink from '../components/customLink';
 import EmailIcon from '@mui/icons-material/Email';
 
 
@@ -25,8 +25,8 @@ const ResendActivation = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
 
-    const resendEmail = async () => {
-        return await axios.post(urls.ResendActivation)
+    const resendEmail = async (data) => {
+        return await axios.post(urls.ResendActivation, data)
     }
 
     const onSubmit = (data) => {
@@ -39,7 +39,7 @@ const ResendActivation = () => {
                     severity: "success",
                     message: "メールを送信しました。"
                 })
-                navigation('/login');
+                navigation('/activate/send');
             })
             .catch(err => {
                 setSnackbarStatus({
