@@ -27,7 +27,7 @@ class PaidLeaveSchedulesView(generics.ListCreateAPIView):
             transform_data.append({
                 'user': user.id,
                 'place': place,
-                'left_days_info': 1, # 仮の値
+                'left_days_info': None, # 仮の値
                 'leave_date': leave_date
             })
         

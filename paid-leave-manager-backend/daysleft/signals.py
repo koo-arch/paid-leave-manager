@@ -5,7 +5,7 @@ from schedules.models import PaidLeaveSchedules
 from .utils import DaysLeftManager
 
 @receiver(post_save, sender=PaidLeaveSchedules)
-def culc_days_left(sender, instance, **kwargs):
+def dec_days_left(sender, instance, **kwargs):
     """有給休暇の残日数を計算する"""
     # 有給休暇の日数を取得する
     leave_days_data = LeaveDays.objects.filter(user=instance.user, place=instance.place)
@@ -16,7 +16,7 @@ def culc_days_left(sender, instance, **kwargs):
 
 
 @receiver(post_delete, sender=PaidLeaveSchedules)
-def culc_days_left(sender, instance, **kwargs):
+def inc_days_left(sender, instance, **kwargs):
     """有給休暇の残日数を計算する"""
     # 有給休暇の日数を取得する
     leave_days_data = LeaveDays.objects.filter(user=instance.user, place=instance.place)

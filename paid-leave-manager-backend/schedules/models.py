@@ -9,7 +9,7 @@ class PaidLeaveSchedules(models.Model):
     """有給休暇のスケジュール"""
     user = models.ForeignKey(User, verbose_name='ユーザー', on_delete=models.CASCADE)
     place = models.ForeignKey(PlaceOfWork, verbose_name='勤務地', on_delete=models.CASCADE)
-    left_days_info = models.ForeignKey(LeaveDays, verbose_name='有給休暇の日数', on_delete=models.CASCADE)
+    left_days_info = models.ForeignKey(LeaveDays, verbose_name='有給休暇の日数', on_delete=models.CASCADE, null=True, blank=True)
     leave_date = models.DateField(verbose_name='休暇日')
 
     def __str__(self):
