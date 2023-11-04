@@ -1,5 +1,6 @@
 from rest_framework import generics, permissions
 from .models import PaidLeaveSchedules
+from daysleft.models import LeaveDays
 from .serializers import PaidLeaveSchedulesSerializer
 from rest_framework.response import Response
 from rest_framework import status
@@ -22,12 +23,17 @@ class PaidLeaveSchedulesView(generics.ListCreateAPIView):
         leave_dates = data_formater.format_dates(leave_dates)
         leave_dates.sort()
 
+        left_days_info = LeaveDays.objects.filter(user=user).first()
+
+        if not left_days_info:
+            return Response({'detail': '有給休暇の日数が設定されていません。'}, status=status.HTTP_400_BAD_REQUEST)
+
         transform_data = []
         for leave_date in leave_dates:
             transform_data.append({
                 'user': user.id,
                 'place': place,
-                'left_days_info': None, # 仮の値
+                'left_days_info': left_days_info.id, # 仮の値
                 'leave_date': leave_date
             })
         
